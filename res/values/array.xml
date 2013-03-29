@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mode_entries">
+        <item>0 : Samsung Galaxy Series, HTC Desire / Nexus One Series (overwritten: 3, 13)</item>
+        <item>1 : Xperia Series (overwritten: 2, 12)</item>
+        <item>2 : Motorola DROID Pro / DROID 3 Atrix Series (overwritten: 0, 10)</item>
+        <item>99 : Try ONLY modes 0 and 1 were unsuccessful (overwritten: 2, 3, 12, 13)</item>
+    </string-array>
+    <string-array name="mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>99</item>
+    </string-array>
+    <string-array name="emergency_entries">
+        <item>0 : Don\'t change</item>
+        <item>1 : Disable display of "Emergency calls only"\n*May result in an error when patching some devices</item>
+        <item>2 : Enable display of "Emergency calls only"\n*restores original behavior after patching</item>
+    </string-array>
+    <string-array name="emergency_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Datasim Patcher</string>
+    <string name="app_name_settings">Datasim Patcher Settings</string>
+    <string name="app_desription">Patch for Docomo MVNO data-only SIM to fix signal strength display and cell standby battery drain. Use at your own risk! </string>
+    <string name="mode_title">patch mode</string>
+    <string name="mode_dialog_title">Please select patch mode.</string>
+    <string name="emergency_title">display \"Emergency calls only\"</string>
+    <string name="emergency_dialog_title">Please select mode.</string>
+</resources>
