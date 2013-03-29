@@ -15,11 +15,9 @@
     <string-array name="emergency_entries">
         <item>0 : Don\'t change</item>
         <item>1 : Disable display of "Emergency calls only"\n*May result in an error when patching some devices</item>
-        <item>2 : Enable display of "Emergency calls only"\n*restores original behavior after patching</item>
     </string-array>
     <string-array name="emergency_values">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
 </resources>

@@ -1,21 +1,17 @@
 package com.matsumo.dsp;
 
-import java.lang.reflect.Method;
-import java.util.Iterator;
-
-import android.graphics.Color;
+import android.os.AsyncResult;
 import android.telephony.ServiceState;
-import android.widget.TextView;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import de.robv.android.xposed.callbacks.XCallback;
+
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class DatasimPatcher implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 	private static XSharedPreferences pref;
@@ -28,36 +24,6 @@ public class DatasimPatcher implements IXposedHookZygoteInit, IXposedHookLoadPac
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 //		XposedBridge.log("Loaded app: " + lpparam.packageName);
-
-		//----
-		// the status bar belongs to package com.android.systemui
-/*		if (lpparam.packageName.equals("com.android.systemui")){
-			XposedBridge.log("DatasimPatcher:hooked=com.android.systemui");
-			try {
-				Method updateClock =
-					Class.forName("com.android.systemui.statusbar.policy.Clock", false, lpparam.classLoader)
-					.getDeclaredMethod("updateClock");
-				XposedBridge.hookMethod(updateClock, new XC_MethodHook(XCallback.PRIORITY_DEFAULT) {
-					@Override
-					protected void afterHookedMethod(
-							MethodHookParam param) throws Throwable {
-						// then change text and color
-						try {
-							TextView tv = (TextView) param.thisObject;
-							String text = tv.getText().toString();
-							tv.setText(text + " :)");
-							tv.setTextColor(Color.RED);
-						} catch (Exception e) {
-							// replacing did not work.. but no reason to crash the VM! Log the error and go on.
-							XposedBridge.log(e);
-						}
-					}
-				});
-			} catch (Exception e) {
-				XposedBridge.log(e);
-			}
-		}*/
-		//----
 
 		if (!lpparam.packageName.equals("com.android.providers.telephony"))
 			return;
@@ -113,7 +79,7 @@ public class DatasimPatcher implements IXposedHookZygoteInit, IXposedHookLoadPac
 					lpparam.classLoader,
 					"handlePollStateResult",
 					int.class,
-					Object.class,
+					AsyncResult.class,
 					new XC_MethodHook() {
 /*				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -122,7 +88,10 @@ public class DatasimPatcher implements IXposedHookZygoteInit, IXposedHookLoadPac
 				@Override
 				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 					// this will be called after the clock was updated by the original method
-					//TODO
+					setObjectField(param.thisObject, "mEmergencyOnly", false);
+					ServiceState newSS = (ServiceState) getObjectField(param.thisObject, "newSS");
+					setObjectField(newSS, "mIsEmergencyOnly", false);
+//					XposedBridge.log("DatasimPatcher:mEmergencyOnly=false");
 				}
 			});
 		}

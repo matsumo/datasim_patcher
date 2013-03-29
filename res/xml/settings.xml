@@ -8,11 +8,11 @@
     android:entries="@array/mode_entries"
     android:entryValues="@array/mode_values"
     android:defaultValue="0" />
-<!-- <ListPreference
+<ListPreference
     android:key="emergency"
     android:title="@string/emergency_title"
     android:dialogTitle="@string/emergency_dialog_title"
     android:entries="@array/emergency_entries"
     android:entryValues="@array/emergency_values"
-    android:defaultValue="0" /> -->
+    android:defaultValue="0" />
 </PreferenceScreen>

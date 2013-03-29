@@ -15,9 +15,12 @@ public class Settings extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// this is important because although the handler classes that read these settings
+		// are in the same package, they are executed in the context of the hooked package
+		getPreferenceManager().setSharedPreferencesMode(MODE_WORLD_READABLE);
 		addPreferencesFromResource(R.xml.settings);
 		bindPreferenceSummaryToValue(findPreference("mode"));
-//		bindPreferenceSummaryToValue(findPreference("emergency"));
+		bindPreferenceSummaryToValue(findPreference("emergency"));
 	}
 
 	/**
