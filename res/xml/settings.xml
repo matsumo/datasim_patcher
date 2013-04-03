@@ -15,4 +15,9 @@
     android:entries="@array/emergency_entries"
     android:entryValues="@array/emergency_values"
     android:defaultValue="0" />
+<PreferenceScreen
+    android:key="donation"
+    android:title="@string/donation_title"
+    android:summary="@string/donation_summary"
+    />
 </PreferenceScreen>

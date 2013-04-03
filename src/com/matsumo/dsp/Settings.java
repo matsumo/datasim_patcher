@@ -1,5 +1,6 @@
 package com.matsumo.dsp;
 
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.text.TextUtils;
 
 public class Settings extends PreferenceActivity {
@@ -21,6 +23,14 @@ public class Settings extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.settings);
 		bindPreferenceSummaryToValue(findPreference("mode"));
 		bindPreferenceSummaryToValue(findPreference("emergency"));
+		findPreference("donation").setOnPreferenceClickListener(new OnPreferenceClickListener(){
+			@Override
+			public boolean onPreferenceClick(Preference pref) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.matsumo.donation"));
+				startActivity(intent);
+				return true;
+			}}
+		);
 	}
 
 	/**

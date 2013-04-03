@@ -7,4 +7,6 @@
     <string name="mode_dialog_title">Please select patch mode.</string>
     <string name="emergency_title">display \"Emergency calls only\"</string>
     <string name="emergency_dialog_title">Please select mode.</string>
+    <string name="donation_title">make a donation</string>
+    <string name="donation_summary">please support developer, if you like this app.</string>
 </resources>

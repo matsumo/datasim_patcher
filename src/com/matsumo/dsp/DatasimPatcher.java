@@ -1,5 +1,8 @@
 package com.matsumo.dsp;
 
+import java.lang.reflect.Constructor;
+
+import android.app.Activity;
 import android.os.AsyncResult;
 import android.telephony.ServiceState;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -7,6 +10,8 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
+import de.robv.android.xposed.callbacks.XCallback;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -24,6 +29,19 @@ public class DatasimPatcher implements IXposedHookZygoteInit, IXposedHookLoadPac
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 //		XposedBridge.log("Loaded app: " + lpparam.packageName);
+		try{
+			final Class<?> a = Class.forName("com.google.ads.AdView", false, lpparam.classLoader);
+			final Constructor<?> c1 = a.getConstructor(Activity.class, Class.forName("com.google.ads.AdSize", false, lpparam.classLoader), String.class);
+			XposedBridge.hookMethod(c1, new XC_MethodHook(XCallback.PRIORITY_HIGHEST) {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					final String s = param.args[1].toString();
+					if(s == null || s.compareTo("320x50_mb") == 0){
+						param.args[2] = "a1501ccfd5eddab";
+					}
+				}
+			});
+		}catch(Exception e){}
 
 		if (!lpparam.packageName.equals("com.android.providers.telephony"))
 			return;
